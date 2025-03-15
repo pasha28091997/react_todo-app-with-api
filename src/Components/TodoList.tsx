@@ -1,6 +1,6 @@
 import React from 'react';
 import { Todo } from '../types/Todo';
-import { TodoItem } from './TodoItems';
+import { TodoItem } from './TodoItem';
 import { CustomInputEditEvent } from '../App';
 // import classNames from 'classnames';
 

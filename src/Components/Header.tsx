@@ -25,6 +25,16 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const areAllTodosCompleted =
     todos.length > 0 && todos.every(todo => todo.completed);
+  const submitForm = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!title.trim()) {
+      setError('Title should not be empty');
+
+      return;
+    }
+
+    handleSubmit(event);
+  };
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -54,19 +64,7 @@ export const Header: React.FC<HeaderProps> = ({
           onClick={toggleAll}
         />
       )}
-
-      <form
-        onSubmit={event => {
-          event.preventDefault();
-          if (!title.trim()) {
-            setError('Title should not be empty');
-
-            return;
-          }
-
-          handleSubmit(event);
-        }}
-      >
+      <form onSubmit={submitForm}>
         <input
           ref={inputRef}
           autoFocus

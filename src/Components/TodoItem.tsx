@@ -119,7 +119,8 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       </label>
 
       {editingId === id ? (
-        <form onKeyUp={e => handleEditKeyDown(e, id)}>
+        <form>
+          {/* <form onKeyUp={e => handleEditKeyDown(e, id)}> */}
           <input
             ref={inputRef}
             data-cy="TodoTitleField"
@@ -129,6 +130,7 @@ export const TodoItem: React.FC<TodoItemProps> = ({
             onChange={e => setEditingTitle(e.target.value)}
             onKeyDown={e => handleEditKeyDown(e, id)}
             onBlur={handleBlur}
+            placeholder='Empty todo will be deleted'
           />
         </form>
       ) : (

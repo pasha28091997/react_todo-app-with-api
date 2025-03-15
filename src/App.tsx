@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useEffect, useRef, useState } from 'react';
 import { UserWarning } from './UserWarning';
@@ -60,12 +61,10 @@ export const App: React.FC = () => {
       setEditingId(null);
       setEditingTitle('');
     } catch (e) {
-      setError(`Unable to update a todo ${e}`);
+      setError(`Unable to update a todoй ${e}`);
     } finally {
       setDeletingTodoIds(prev => prev.filter(deletingId => deletingId !== id));
     }
-
-    setError('Unable to update a todo');
   };
 
   const handleEditKeyDown = (e: CustomInputEditEvent, id: number) => {
@@ -75,23 +74,7 @@ export const App: React.FC = () => {
       setEditingId(null);
       setEditingTitle('');
     }
-    // if (e.key === 'Enter') {
-    //   const newTitle = editingTitle.trim();
-
-    //   if (newTitle && newTitle !== title) {
-    //     handleUpdate(id);
-    //   }
-
-    //   setEditingId(null);
-    // } else if (e.key === 'Escape') {
-    //   setEditingId(null);
-    //   setEditingTitle(title);
-    // }
   };
-
-  // useEffect(() => {
-  //   inputRef.current?.focus();
-  // }, []);
 
   useEffect(() => {
     if (!USER_ID) {
