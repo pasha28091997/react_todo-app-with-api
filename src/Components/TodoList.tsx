@@ -2,7 +2,6 @@ import React from 'react';
 import { Todo } from '../types/Todo';
 import { TodoItem } from './TodoItem';
 import { CustomInputEditEvent } from '../App';
-// import classNames from 'classnames';
 
 type TodoListProps = {
   filteredTodos: Todo[];
@@ -64,13 +63,6 @@ export const TodoList: React.FC<TodoListProps> = ({
           handleDoubleClick={() => {}}
           handleBlur={() => {}}
         />
-        {/* <div
-          data-cy="TodoLoader"
-          className={classNames('modal overlay', 'is-active')}
-        >
-          <div className="modal-background has-background-white-ter" />
-          <div className="loader" />
-        </div> */}
       </div>
     )}
   </section>

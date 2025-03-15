@@ -72,7 +72,8 @@ export const App: React.FC = () => {
       handleUpdate(id);
     } else if (e.key === 'Escape') {
       setEditingId(null);
-      setEditingTitle('');
+      setEditingTitle(title);
+      e.preventDefault();
     }
   };
 
@@ -226,37 +227,6 @@ export const App: React.FC = () => {
       });
   };
 
-  // const handleAddTodo = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const trimmedTitle = title.trim();
-
-  //   if (!trimmedTitle) {
-  //     setError('Title should not be empty');
-
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   setError(null);
-  //   apiAddTodo({
-  //     title: trimmedTitle,
-  //     completed: false,
-  //     userId: USER_ID,
-  //   })
-  //     .then(newTodo => {
-  //       setTodos(prev => [...prev, newTodo]);
-  //       setTitle('');
-  //     })
-  //     .catch(() => {
-  //       setError('Unable to add a todo');
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //       // Возвращаем фокус в поле нового todo после завершения запроса
-  //       newTodoInputRef.current?.focus();
-  //     });
-  // };
-
   const toggleTodo = (id: number) => {
     const currentTodo = todos.find(todo => todo.id === id);
 
@@ -308,16 +278,6 @@ export const App: React.FC = () => {
         });
     });
   };
-  // const toggleAll = () => {
-  //   setTodos(prevTodos => {
-  //     const allCompleted = prevTodos.every(todo => todo.completed);
-
-  //     return prevTodos.map(todo => ({
-  //       ...todo,
-  //       completed: !allCompleted,
-  //     }));
-  //   });
-  // };
 
   return (
     <div className="todoapp">

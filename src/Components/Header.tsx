@@ -46,14 +46,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header className="todoapp__header">
-      {/* <button
-        type="button"
-        className={classNames('todoapp__toggle-all', {
-          active: areAllTodosCompleted,
-        })}
-        data-cy="ToggleAllButton"
-        onClick={toggleAll}
-      /> */}
       {!loading && todos.length > 0 && (
         <button
           type="button"

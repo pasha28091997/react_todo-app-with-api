@@ -43,66 +43,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
     }
   }, [editingId, id]);
 
-  // return (
-  //   <div data-cy="Todo" className={cn('todo', { completed })}>
-  //     {/*checkbox */}
-  //     <label className="todo__status-label" htmlFor={`todo-${id}`}>
-  //       <input
-  //         id={`todo-${id}`}
-  //         data-cy="TodoStatus"
-  //         type="checkbox"
-  //         className="todo__status"
-  //         checked={completed}
-  //         onChange={() => onToggle(id)}
-  //         disabled={isTemporary || isUpdating || isDeleting}
-  //       />
-  //     </label>
-
-  //     <div
-  //       data-cy="TodoLoader"
-  //       className={cn('modal overlay', {
-  //         'is-active': isTemporary || isUpdating || isDeleting,
-  //       })}
-  //     >
-  //       <div className="modal-background has-background-white-ter" />
-  //       <div className="loader" />
-  //     </div>
-
-  //     {editingId === id ? (
-  //       <span
-  //         data-cy="TodoTitle"
-  //         className="todo__title"
-  //         onDoubleClick={() => handleDoubleClick(id, title)}
-  //       >
-  //         {title}
-  //       </span>
-  //     ) : (
-  //       <form onKeyUp={e => handleEditKeyDown(e, id)}>
-  //         <input
-  //           ref={inputRef}
-  //           data-cy="TodoTitleField"
-  //           type="text"
-  //           className="todo__title-field"
-  //           value={editingTitle}
-  //           onChange={e => setEditingTitle(e.target.value)}
-  //           onKeyDown={e => handleEditKeyDown(e, id)}
-  //           onBlur={handleBlur}
-  //         />
-  //       </form>
-  //     )}
-  //     {editingId !== id && (
-  //       <button
-  //         type="button"
-  //         className="todo__remove"
-  //         data-cy="TodoDelete"
-  //         onClick={() => onDelete(id)}
-  //         disabled={isTemporary || isUpdating || isDeleting}
-  //       >
-  //         ×
-  //       </button>
-  //     )}
-  //   </div>
-  // );
   return (
     <div data-cy="Todo" className={cn('todo', { completed })}>
       {/*checkbox */}
@@ -119,8 +59,9 @@ export const TodoItem: React.FC<TodoItemProps> = ({
       </label>
 
       {editingId === id ? (
-        <form>
-          {/* <form onKeyUp={e => handleEditKeyDown(e, id)}> */}
+        <form onKeyDown={
+          (e) => handleEditKeyDown(e as CustomInputEditEvent, id)}
+        >
           <input
             ref={inputRef}
             data-cy="TodoTitleField"
@@ -128,7 +69,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
             className="todo__title-field"
             value={editingTitle}
             onChange={e => setEditingTitle(e.target.value)}
-            onKeyDown={e => handleEditKeyDown(e, id)}
             onBlur={handleBlur}
             placeholder='Empty todo will be deleted'
           />
