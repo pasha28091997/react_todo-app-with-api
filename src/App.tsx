@@ -201,19 +201,9 @@ export const App: React.FC = () => {
             setError={setError}
             filteredTodos={filteredTodos}
             setTodos={setTodos}
-            // onDelete={handleDelete}
-            // onToggle={toggleTodo}
             tempTodo={tempTodo}
             deletUpdatTodoIds={deletUpdatTodoIds}
             setDeletUpdatTodoIds={setDeletUpdatTodoIds}
-            // deletUpdatTodoIds={setDeletUpdatTodoIds}
-            // updatingIds={updatingIds}
-            // editingId={editingId}
-            // editingTitle={editingTitle}
-            // handleEditKeyDown={handleEditKeyDown}
-            // handleDoubleClick={handleDoubleClick}
-            // setEditingTitle={setEditingTitle}
-            // handleBlur={handleBlur}
           />
         )}
 

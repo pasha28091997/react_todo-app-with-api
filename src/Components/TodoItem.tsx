@@ -121,31 +121,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
     }
   };
 
-  // const toggleAll = () => {
-  //   const allCompleted =
-  //     todos.length > 0 && todos.every((t: Todo) => t.completed);
-  //   const desiredStatus = !allCompleted;
-  //   const tasksToUpdate = todos.filter(
-  //     (task: Todo) => task.completed !== desiredStatus,
-  //   );
-
-  //   tasksToUpdate.forEach(task => {
-  //     setDeletUpdatTodoIds(prev => [...prev, task.id]);
-  //     patchTodo(task.id, { completed: desiredStatus })
-  //       .then(updatedTodo => {
-  //         setTodos(prevTodos =>
-  //           prevTodos.map(t => (t.id === updatedTodo.id ? updatedTodo : t)),
-  //         );
-  //       })
-  //       .catch(() => {
-  //         setError('Failed to update todo');
-  //       })
-  //       .finally(() => {
-  //         setDeletUpdatTodoIds(prev => prev.filter(ids => ids !== task.id));
-  //       });
-  //   });
-  // };
-
   const toggleTodo = (todoId: number) => {
     const currentTodo = todo.id === todoId ? todo : null;
 
@@ -182,7 +157,6 @@ export const TodoItem: React.FC<TodoItemProps> = ({
 
   return (
     <div data-cy="Todo" className={cn('todo', { completed })}>
-      {/*checkbox */}
       <label className="todo__status-label" htmlFor={`todo-${id}`}>
         <input
           id={`todo-${id}`}
