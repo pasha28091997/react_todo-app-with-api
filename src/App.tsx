@@ -27,55 +27,13 @@ export const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterType>(FilterType.All);
-  const [deletingTodoIds, setDeletingTodoIds] = useState<number[]>([]);
-  const [updatingIds, setUpdatingIds] = useState<number[]>([]);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editingTitle, setEditingTitle] = useState<string>('');
-
+  const [deletUpdatTodoIds, setDeletUpdatTodoIds] = useState<number[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const newTodoInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     newTodoInputRef.current?.focus();
   }, []);
-
-  const handleDoubleClick = (id: number, currentTitle: string) => {
-    setEditingId(id);
-    setEditingTitle(currentTitle);
-  };
-
-  const handleUpdate = async (id: number) => {
-    const newTitle = editingTitle.trim();
-
-    if (!newTitle) {
-      setError('Title should not be empty');
-
-      return;
-    }
-
-    try {
-      setDeletingTodoIds(prev => [...prev, id]);
-      const updatedTodo = await patchTodo(id, { title: newTitle });
-
-      setTodos(prev => prev.map(todo => (todo.id === id ? updatedTodo : todo)));
-      setEditingId(null);
-      setEditingTitle('');
-    } catch (e) {
-      setError(`Unable to update a todoй ${e}`);
-    } finally {
-      setDeletingTodoIds(prev => prev.filter(deletingId => deletingId !== id));
-    }
-  };
-
-  const handleEditKeyDown = (e: CustomInputEditEvent, id: number) => {
-    if (e.key === 'Enter') {
-      handleUpdate(id);
-    } else if (e.key === 'Escape') {
-      setEditingId(null);
-      setEditingTitle(title);
-      e.preventDefault();
-    }
-  };
 
   useEffect(() => {
     if (!USER_ID) {
@@ -159,34 +117,6 @@ export const App: React.FC = () => {
     );
   };
 
-  const handleDelete = (id: Todo['id']) => {
-    setDeletingTodoIds(prev => [...prev, id]);
-
-    deleteTodo(id)
-      .then(() => {
-        setTodos(prev => prev.filter(todo => todo.id !== id));
-      })
-      .catch(() => {
-        setError('Unable to delete a todo');
-      })
-      .finally(() => {
-        setDeletingTodoIds(prev =>
-          prev.filter(deletingId => deletingId !== id),
-        );
-      });
-  };
-
-  const handleBlur = () => {
-    if (editingTitle.trim() === '') {
-      handleDelete(editingId as number);
-    } else if (editingTitle !== title) {
-      handleUpdate(editingId as number);
-    } else {
-      setEditingId(null);
-      setEditingTitle('');
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -227,44 +157,17 @@ export const App: React.FC = () => {
       });
   };
 
-  const toggleTodo = (id: number) => {
-    const currentTodo = todos.find(todo => todo.id === id);
-
-    if (!currentTodo) {
-      return;
-    }
-
-    setUpdatingIds(prev => [...prev, id]);
-
-    patchTodo(id, { completed: !currentTodo.completed })
-      .then(updatedTodo => {
-        setTodos(prevTodos =>
-          prevTodos.map(todo =>
-            todo.id === id
-              ? { ...todo, completed: updatedTodo.completed }
-              : todo,
-          ),
-        );
-      })
-      .catch(() => {
-        setError('Unable to update a todo');
-      })
-      .finally(() => {
-        setUpdatingIds(prev => prev.filter(todoId => todoId !== id));
-      });
-  };
-
   const toggleAll = () => {
     const allCompleted =
-      todos.length > 0 && todos.every(todo => todo.completed);
+      todos.length > 0 && todos.every((t: Todo) => t.completed);
     const desiredStatus = !allCompleted;
     const tasksToUpdate = todos.filter(
-      todo => todo.completed !== desiredStatus,
+      (task: Todo) => task.completed !== desiredStatus,
     );
 
-    tasksToUpdate.forEach(todo => {
-      setUpdatingIds(prev => [...prev, todo.id]);
-      patchTodo(todo.id, { completed: desiredStatus })
+    tasksToUpdate.forEach(task => {
+      setDeletUpdatTodoIds(prev => [...prev, task.id]);
+      patchTodo(task.id, { completed: desiredStatus })
         .then(updatedTodo => {
           setTodos(prevTodos =>
             prevTodos.map(t => (t.id === updatedTodo.id ? updatedTodo : t)),
@@ -274,7 +177,7 @@ export const App: React.FC = () => {
           setError('Failed to update todo');
         })
         .finally(() => {
-          setUpdatingIds(prev => prev.filter(id => id !== todo.id));
+          setDeletUpdatTodoIds(prev => prev.filter(ids => ids !== task.id));
         });
     });
   };
@@ -295,18 +198,22 @@ export const App: React.FC = () => {
         />
         {todos.length > 0 && (
           <TodoList
+            setError={setError}
             filteredTodos={filteredTodos}
-            onDelete={handleDelete}
-            onToggle={toggleTodo}
+            setTodos={setTodos}
+            // onDelete={handleDelete}
+            // onToggle={toggleTodo}
             tempTodo={tempTodo}
-            deletingTodoIds={deletingTodoIds}
-            updatingIds={updatingIds}
-            editingId={editingId}
-            editingTitle={editingTitle}
-            handleEditKeyDown={handleEditKeyDown}
-            handleDoubleClick={handleDoubleClick}
-            setEditingTitle={setEditingTitle}
-            handleBlur={handleBlur}
+            deletUpdatTodoIds={deletUpdatTodoIds}
+            setDeletUpdatTodoIds={setDeletUpdatTodoIds}
+            // deletUpdatTodoIds={setDeletUpdatTodoIds}
+            // updatingIds={updatingIds}
+            // editingId={editingId}
+            // editingTitle={editingTitle}
+            // handleEditKeyDown={handleEditKeyDown}
+            // handleDoubleClick={handleDoubleClick}
+            // setEditingTitle={setEditingTitle}
+            // handleBlur={handleBlur}
           />
         )}
 
